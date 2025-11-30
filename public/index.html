@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowdspace | Crowdfunding Projects Aggregator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/home.css" />
+    <link rel="stylesheet" href="./styles/admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="branding">
+          <span class="logo">Crowdspace</span>
+          <p class="tagline">Discover standout crowdfunding campaigns in one place.</p>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link cta" href="./projects.html">Campaigns</a>
+          <a class="nav-link" href="./creators.html">Creators</a>
+          <a class="nav-link nav-link-backers" href="./backers.html">Backers</a>
+          <span class="admin-indicator">Admin</span>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <div class="hero-copy">
+            <h1>All the momentum of crowdfunding — curated for you.</h1>
+            <p>
+              Crowdspace highlights the most promising ideas from Kickstarter, GoFundMe, Indiegogo,
+              and beyond so you can support what matters most.
+            </p>
+            <form class="search" role="search" aria-label="Search projects">
+              <label class="visually-hidden" for="project-search">Search projects</label>
+              <input
+                id="project-search"
+                type="search"
+                name="query"
+                placeholder="AI-powered search by project name, category, or platform"
+                autocomplete="off"
+              />
+              <button type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="search-results" class="section" hidden>
+        <div class="container section-content">
+          <div class="search-results-header">
+            <h2>AI-Powered Search Results</h2>
+            <button type="button" class="clear-search-btn" id="clear-search">← Back to recent projects</button>
+          </div>
+          <p class="section-intro" id="search-results-info"></p>
+          <div class="recent-grid" id="search-results-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="recent-projects" class="section">
+        <div class="container section-content">
+          <h2>Recently added projects</h2>
+          <div class="recent-grid" id="recent-projects-grid" aria-live="polite"></div>
+          <div class="recent-actions">
+            <a class="cta-secondary" href="projects.html">Browse all campaigns</a>
+          </div>
+          <template id="recent-project-template">
+            <article class="recent-card">
+              <header>
+                <h3 data-project-title></h3>
+                <span class="platform-pill" data-project-platform></span>
+              </header>
+              <p class="recent-description" data-project-summary></p>
+              <a class="recent-link" data-project-link href="#">View project →</a>
+            </article>
+          </template>
+        </div>
+      </section>
+
+      <section id="featured" class="section alt">
+        <div class="container section-content">
+          <h2>Featured platforms</h2>
+          <ul class="platform-list" role="list">
+            <li>
+              <a
+                class="platform platform-icon"
+                href="https://www.kickstarter.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Explore Kickstarter"
+              >
+                <img src="./assets/kickstarter.svg" alt="Kickstarter" />
+              </a>
+            </li>
+            <li>
+              <a
+                class="platform platform-icon"
+                href="https://www.gofundme.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Explore GoFundMe"
+              >
+                <img src="./assets/gofundme.svg" alt="GoFundMe" />
+              </a>
+            </li>
+            <li>
+              <a
+                class="platform platform-icon"
+                href="https://www.indiegogo.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Explore Indiegogo"
+              >
+                <img src="./assets/indiegogo.svg" alt="Indiegogo" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-left">
+          <p>&copy; <span id="year"></span> xqsy</p>
+          <a class="footer-admin-link" href="./admin-login.html">Login</a>
+        </div>
+        <a class="nav-link" href="https://github.com/xqsy">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="./scripts/base.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/admin-shared.js"></script>
+    <script src="./scripts/home.js"></script>
+  </body>
+</html>

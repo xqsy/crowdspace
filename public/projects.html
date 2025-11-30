@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowdspace | Campaigns</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/projects.css" />
+    <link rel="stylesheet" href="./styles/people.css" />
+    <link rel="stylesheet" href="./styles/admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="branding">
+          <span class="logo" onclick="window.location.href='./index.html'" style="cursor: pointer;">Crowdspace</span>
+          <p class="tagline">Your hub for standout crowdfunding projects.</p>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link cta" href="./projects.html">Campaigns</a>
+          <a class="nav-link" href="./creators.html">Creators</a>
+          <a class="nav-link nav-link-backers" href="./backers.html">Backers</a>
+          <span class="admin-indicator">Admin</span>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section projects-hero-section">
+        <div class="container projects-hero">
+          <div class="hero-text">
+            <p class="eyebrow">Campaigns catalog</p>
+            <h1>Browse campaigns across every major platform.</h1>
+            <p class="hero-subtitle">Discover innovative projects on Kickstarter, Indiegogo, and GoFundMe — all in one place.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-controls" aria-label="Project search and filters">
+        <div class="container controls-shell">
+          <div class="controls-card">
+            <form class="search projects-search" id="projects-search-form" role="search" aria-label="Search campaigns">
+              <label class="visually-hidden" for="projects-search">Search campaigns</label>
+              <input
+                id="projects-search"
+                type="search"
+                name="query"
+                placeholder="Search by title, creator, platform, or keyword"
+                autocomplete="off"
+              />
+              <button type="submit">Search</button>
+            </form>
+
+            <div class="filter-bar" role="toolbar" aria-label="Filter projects by campaign status">
+              <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true">All campaigns</button>
+              <button type="button" class="filter-chip" data-filter="going" aria-pressed="false">Going</button>
+              <button type="button" class="filter-chip" data-filter="completed" aria-pressed="false">Completed</button>
+              <button type="button" class="filter-chip" data-filter="upcoming" aria-pressed="false">Upcoming</button>
+            </div>
+
+            <div class="category-filter" role="group" aria-label="Filter projects by category">
+              <p class="filter-heading">Categories</p>
+              <div class="category-chip-list">
+                <button type="button" class="filter-chip category-chip is-active" data-category="all" aria-pressed="true">
+                  All categories
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="environment" aria-pressed="false">
+                  Environment
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="technology" aria-pressed="false">
+                  Technology
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="education" aria-pressed="false">
+                  Education
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="art" aria-pressed="false">
+                  Art
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="health" aria-pressed="false">
+                  Health
+                </button>
+                <button type="button" class="filter-chip category-chip" data-category="games" aria-pressed="false">
+                  Games
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-actions">
+            <button type="button" class="campaign-add-btn" id="campaign-add-trigger">+ Add campaign</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section campaigns-section" aria-live="polite">
+        <div class="container">
+          <div class="campaign-grid" id="campaign-grid"></div>
+          <div class="campaign-empty" id="campaign-empty" hidden>
+            <div class="empty-shell">
+              <p class="empty-eyebrow">No results just yet</p>
+              <h3>Nothing matched your filters.</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="campaign-modal" id="campaign-modal" role="dialog" aria-modal="true" aria-labelledby="manual-entry-title" hidden>
+      <div class="modal-backdrop" data-dismiss-modal></div>
+      <div class="modal-panel modal-panel--wide">
+        <button type="button" class="modal-close" id="campaign-modal-close" aria-label="Close">×</button>
+        <div class="manual-entry-card">
+          <div class="manual-entry-header">
+            <p class="eyebrow">Manual entry</p>
+            <h2 id="manual-entry-title">Add a campaign manually</h2>
+            <p>Fill out the details below to publish a campaign directly to Crowdspace.</p>
+          </div>
+
+          <form id="manual-campaign-form" class="manual-form" enctype="multipart/form-data" novalidate>
+            <div class="manual-form-grid">
+              <label>
+                Creator
+                <select id="campaign-creator" name="creator_id" required>
+                  <option value="" disabled selected>Loading creators…</option>
+                </select>
+              </label>
+              <label>
+                Platform
+                <select name="platform" required>
+                  <option value="kickstarter">Kickstarter</option>
+                  <option value="indiegogo">Indiegogo</option>
+                  <option value="gofundme">GoFundMe</option>
+                </select>
+              </label>
+              <label>
+                Status
+                <select name="status" required>
+                  <option value="" disabled selected>Select status</option>
+                  <option value="going">Going</option>
+                  <option value="completed">Completed</option>
+                  <option value="upcoming">Upcoming</option>
+                </select>
+              </label>
+              <label>
+                Category
+                <select name="category" required>
+                  <option value="" disabled selected>Select category</option>
+                  <option value="Environment">Environment</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Education">Education</option>
+                  <option value="Art">Art</option>
+                  <option value="Health">Health</option>
+                  <option value="Games">Games</option>
+                </select>
+              </label>
+              <label>
+                Launch date
+                <input type="date" name="launch_date" required />
+              </label>
+              <label>
+                End date
+                <input type="date" name="end_date" required />
+              </label>
+              <label>
+                Goal amount (USD)
+                <input type="number" name="goal_amount" min="0" step="0.01" placeholder="50000" required />
+              </label>
+              <input type="hidden" name="currency" value="USD" />
+              <label id="total-pledged-field" hidden>
+                Total pledged (USD)
+                <input type="number" name="total_pledged" min="0" step="0.01" placeholder="25000" />
+              </label>
+              <label id="backer-count-field" hidden>
+                Backer count
+                <input type="number" name="backer_count" min="0" step="1" placeholder="150" />
+              </label>
+            </div>
+
+            <label class="manual-form-full">
+              Title
+              <input type="text" name="title" placeholder="Project title" required />
+            </label>
+
+            <label class="manual-form-full">
+              Campaign URL
+              <input type="url" name="url" placeholder="https://" required autocomplete="off" />
+            </label>
+
+            <label class="manual-form-full">
+              Description
+              <textarea name="description" rows="4" placeholder="Describe the campaign" required></textarea>
+            </label>
+
+            <label class="manual-form-full">
+              Campaign Image
+              <input type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="file-input" required />
+              <span class="file-hint">Max 5MB. Supported: JPG, PNG, GIF, WebP</span>
+            </label>
+
+            <div class="manual-form-actions">
+              <button type="submit" class="campaign-submit-btn" id="campaign-submit-btn" disabled>Create campaign</button>
+              <p id="manual-campaign-status" class="manual-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <div class="new-creator-wrapper">
+            <button type="button" class="link-button" id="new-creator-toggle">Need to add a new creator?</button>
+            <form id="new-creator-form" class="new-creator-form" hidden novalidate>
+              <div class="manual-form-grid">
+                <label>
+                  Creator name
+                  <input type="text" name="creator_name" placeholder="Creator studio" required />
+                </label>
+                <label>
+                  Website
+                  <input type="url" name="creator_website" placeholder="https://" autocomplete="off" />
+                </label>
+                <label>
+                  Location
+                  <input type="text" name="creator_location" placeholder="City, Country" />
+                </label>
+              </div>
+              <label class="manual-form-full">
+                Bio
+                <textarea name="creator_bio" rows="3" placeholder="Short description"></textarea>
+              </label>
+              <div class="manual-form-actions">
+                <div class="creator-actions">
+                  <button type="submit" class="campaign-submit-btn">Save creator</button>
+                  <button type="button" class="link-button" id="cancel-new-creator">Cancel</button>
+                </div>
+                <p id="new-creator-status" class="manual-status" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-left">
+          <p>&copy; <span id="year"></span> xqsy</p>
+          <a class="footer-admin-link" href="./admin-login.html">Login</a>
+        </div>
+        <a class="nav-link" href="https://github.com/xqsy">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="./scripts/base.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/admin-shared.js"></script>
+    <script src="./scripts/projects.js"></script>
+    <script src="./scripts/campaign-form.js"></script>
+  </body>
+</html>

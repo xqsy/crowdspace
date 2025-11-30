@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowdspace | Creator profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/projects.css" />
+    <link rel="stylesheet" href="./styles/people.css" />
+    <link rel="stylesheet" href="./styles/admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="branding">
+          <span class="logo" onclick="window.location.href='./index.html'" style="cursor: pointer;">Crowdspace</span>
+          <p class="tagline">Creator details and their campaigns.</p>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link" href="./projects.html">Campaigns</a>
+          <a class="nav-link" href="./creators.html">Creators</a>
+          <a class="nav-link nav-link-backers" href="./backers.html">Backers</a>
+          <span class="admin-indicator">Admin</span>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section projects-hero-section">
+        <div class="container">
+          <div class="profile-hero">
+            <p class="eyebrow">Creator profile</p>
+            <h1 id="creator-name" class="profile-title"></h1>
+            <p id="creator-bio" class="profile-subtitle"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container section-content" id="creator-profile-root">
+          <div class="project-profile-grid creator-profile-grid">
+            <div class="project-info-column">
+              <a class="profile-back-link" href="creators.html">
+                <span class="profile-back-icon" aria-hidden="true"></span>
+                <span>Browse all creators</span>
+              </a>
+              <div class="profile-details-card">
+                <div class="profile-details-grid">
+                  <div class="detail-item">
+                    <span class="detail-icon">📍</span>
+                    <span class="detail-label">Location</span>
+                    <span id="creator-location" class="detail-value"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-icon">🌐</span>
+                    <span class="detail-label">Website</span>
+                    <a id="creator-website" href="#" class="detail-value detail-link"></a>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-icon">📊</span>
+                    <span class="detail-label">Stats</span>
+                    <span id="creator-stats" class="detail-value"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <button type="button" class="profile-delete-btn" id="creator-delete-btn">Delete profile</button>
+              </div>
+              <p id="creator-delete-status" class="profile-delete-status" aria-live="polite"></p>
+            </div>
+
+            <div class="project-main-column">
+              <section class="project-content-section">
+                <div class="projects-section-header">
+                  <h2>Projects by this creator</h2>
+                  <p class="section-intro">Campaigns launched under this creator’s profile.</p>
+                </div>
+                <div id="creator-projects-grid" class="backer-history-list" aria-live="polite"></div>
+                <p id="creator-projects-empty" class="empty-state">This creator has no projects yet.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-left">
+          <p>&copy; <span id="year"></span> xqsy</p>
+          <a class="footer-admin-link" href="./admin-login.html">Login</a>
+        </div>
+        <a class="nav-link" href="https://github.com/xqsy">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="./scripts/base.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/admin-shared.js"></script>
+    <script src="./scripts/creators.js"></script>
+  </body>
+</html>

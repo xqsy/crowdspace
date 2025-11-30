@@ -1,0 +1,17 @@
+{
+  "name": "crowdspace",
+  "version": "1.0.0",
+  "description": "Small knowledge base about crowdfunding projects (uni exam project)",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.2",
+    "multer": "^2.0.2",
+    "pg": "^8.11.3"
+  }
+}

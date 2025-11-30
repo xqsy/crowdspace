@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowdspace | Manage Backers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="branding">
+          <span class="logo" onclick="window.location.href='./index.html'" style="cursor: pointer;">Crowdspace</span>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link" href="./projects.html">Campaigns</a>
+          <a class="nav-link" href="./creators.html">Creators</a>
+          <a class="nav-link" href="./admin-backers.html">Backers</a>
+          <span class="admin-indicator">Admin</span>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="admin-page-header">
+            <h1>Manage Backers</h1>
+            <button type="button" class="btn btn-primary" id="add-backer-btn">
+              + Add Backer
+            </button>
+          </div>
+
+          <div id="status-message" class="status-message" style="display: none;"></div>
+
+          <div class="search-bar">
+            <input 
+              type="search" 
+              id="backer-search" 
+              placeholder="Search by name or contributed project..." 
+              class="search-input"
+            />
+            <button type="button" class="btn btn-secondary btn-sm" id="clear-search" style="display: none;">
+              Clear
+            </button>
+          </div>
+
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Country</th>
+                  <th>Total Pledged</th>
+                  <th>Projects</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="backers-table-body">
+                <tr>
+                  <td colspan="6" class="empty-state">Loading backers...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Add/Edit Backer Modal -->
+    <div id="backer-modal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="modal-title">Add Backer</h3>
+          <button type="button" class="modal-close" id="modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="backer-form">
+            <input type="hidden" id="backer-id" name="id" />
+            <div class="form-group">
+              <label for="backer-name">Name *</label>
+              <input type="text" id="backer-name" name="name" required placeholder="Enter backer name" />
+            </div>
+            <div class="form-group">
+              <label for="backer-email">Email</label>
+              <input type="email" id="backer-email" name="email" placeholder="Enter email address" />
+            </div>
+            <div class="form-group">
+              <label for="backer-country">Country</label>
+              <input type="text" id="backer-country" name="country" placeholder="Enter country" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+          <button type="submit" form="backer-form" class="btn btn-primary" id="modal-save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal-overlay">
+      <div class="modal" style="max-width: 400px;">
+        <div class="modal-header">
+          <h3>Confirm Delete</h3>
+          <button type="button" class="modal-close" id="delete-modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete <strong id="delete-backer-name"></strong>? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="delete-cancel">Cancel</button>
+          <button type="button" class="btn btn-danger" id="delete-confirm">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-left">
+          <p>&copy; <span id="year"></span> xqsy</p>
+          <a class="footer-admin-link" href="#">Logout</a>
+        </div>
+        <a class="nav-link" href="https://github.com/xqsy">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="./scripts/base.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/admin-shared.js"></script>
+    <script src="./scripts/admin-backers.js"></script>
+  </body>
+</html>

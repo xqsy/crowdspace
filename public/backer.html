@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowdspace | Backer profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/projects.css" />
+    <link rel="stylesheet" href="./styles/people.css" />
+    <link rel="stylesheet" href="./styles/admin.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="branding">
+          <span class="logo" onclick="window.location.href='./index.html'" style="cursor: pointer;">Crowdspace</span>
+        </div>
+        <nav class="primary-nav">
+          <a class="nav-link" href="./projects.html">Campaigns</a>
+          <a class="nav-link" href="./creators.html">Creators</a>
+          <a class="nav-link nav-link-backers" href="./backers.html">Backers</a>
+          <span class="admin-indicator">Admin</span>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section projects-hero-section">
+        <div class="container">
+          <div class="profile-hero">
+            <p class="eyebrow">Backer profile</p>
+            <h1 id="backer-name" class="profile-title"></h1>
+            <p class="profile-subtitle">Supporting innovative projects and creators.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container section-content" id="backer-profile-root">
+          <div class="project-profile-grid">
+            <div class="project-info-column">
+              <a class="profile-back-link" href="backers.html">
+                <span class="profile-back-icon" aria-hidden="true"></span>
+                <span>Browse all backers</span>
+              </a>
+              <div class="profile-details-card">
+                <div class="profile-details-grid">
+                  <div class="detail-item">
+                    <span class="detail-icon">✉️</span>
+                    <span class="detail-label">Email</span>
+                    <span id="backer-email" class="detail-value"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-icon">🌍</span>
+                    <span class="detail-label">Country</span>
+                    <span id="backer-country" class="detail-value"></span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-icon">📅</span>
+                    <span class="detail-label">Member</span>
+                    <span id="backer-created" class="detail-value"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <button type="button" class="profile-delete-btn" id="backer-delete-btn">Delete profile</button>
+              </div>
+              <p id="backer-delete-status" class="profile-delete-status" aria-live="polite"></p>
+            </div>
+
+            <div class="project-main-column">
+              <section class="project-content-section" aria-labelledby="backer-history-title">
+                <div class="projects-section-header">
+                  <h2 id="backer-history-title">Supported projects</h2>
+                  <p class="section-intro" id="backer-history-summary"></p>
+                </div>
+                <div id="backer-history-list" class="backer-history-list" aria-live="polite"></div>
+                <p id="backer-history-empty" class="empty-state">No contributions recorded yet.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-left">
+          <p>&copy; <span id="year"></span> xqsy</p>
+          <a class="footer-admin-link" href="./admin-login.html">Login</a>
+        </div>
+        <a class="nav-link" href="https://github.com/xqsy">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="./scripts/base.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/admin-shared.js"></script>
+    <script src="./scripts/backers.js"></script>
+  </body>
+</html>

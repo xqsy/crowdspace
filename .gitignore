@@ -1,0 +1,20 @@
+.vscode/
+node_modules/
+.env
+server/.env
+!.env.example
+.DS_Store
+
+# Uploaded images (user content)
+public/assets/creators/*
+!public/assets/creators/.gitkeep
+
+# Personal notes
+PROJECT_PLAN.md
+new_features.md
+
+# Seed data with personal info
+db/seed.sql
+
+# Admin setup with credentials
+server/setup-admin.js

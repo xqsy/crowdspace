@@ -10,11 +10,7 @@ public/assets/creators/*
 !public/assets/creators/.gitkeep
 
 # Personal notes
-PROJECT_PLAN.md
-new_features.md
+notes/
 
 # Seed data with personal info
 db/seed.sql
-
-# Admin setup with credentials
-server/setup-admin.js

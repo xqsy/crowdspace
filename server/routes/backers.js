@@ -48,6 +48,7 @@ router.get('/:id', async (req, res) => {
       p.platform,
       p.status,
       p.goal_amount,
+      p.image_url,
       bp.amount_pledged,
       bp.pledged_at
     FROM backer_projects bp

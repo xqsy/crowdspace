@@ -173,7 +173,7 @@
           media.className = "backer-history-media";
 
           const img = document.createElement("img");
-          img.src = "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?auto=format&fit=crop&w=600&q=80";
+          img.src = project.image_url || "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?auto=format&fit=crop&w=600&q=80";
           img.alt = project.title;
           media.appendChild(img);
 

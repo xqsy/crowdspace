@@ -87,6 +87,7 @@ router.get('/:id', async (req, res) => {
       p.goal_amount,
       p.currency,
       p.created_at,
+      p.image_url,
       f.total_pledged,
       f.backer_count,
       f.average_pledge

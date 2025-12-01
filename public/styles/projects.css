@@ -517,6 +517,34 @@
   cursor: not-allowed;
 }
 
+.edit-image-preview {
+  margin-bottom: 0.75rem;
+}
+
+.edit-image-preview img {
+  border: 1px solid var(--slate-200);
+}
+
+.edit-project-form input[type="file"] {
+  padding: 0.5rem;
+  border: 1px dashed var(--slate-300);
+  border-radius: var(--radius-md);
+  background: var(--slate-50);
+  cursor: pointer;
+}
+
+.edit-project-form input[type="file"]:hover {
+  border-color: var(--primary);
+  background: var(--white);
+}
+
+.edit-project-form .file-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--slate-500);
+}
+
 @media (max-width: 600px) {
   .edit-project-form .form-grid {
     grid-template-columns: 1fr;

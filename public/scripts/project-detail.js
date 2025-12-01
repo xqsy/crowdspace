@@ -210,6 +210,8 @@
     const editEndDate = editForm?.querySelector('#edit-end-date');
 
     const editTitleInput = editForm?.querySelector('#edit-title');
+    const editImageInput = editForm?.querySelector('#edit-image');
+    const editImagePreview = document.getElementById('edit-image-preview');
 
     const validateEditForm = () => {
       if (!editSaveBtn || !editStatusSelect || !editLaunchDate || !editEndDate || !editTitleInput) return;
@@ -282,6 +284,20 @@
       editForm.querySelector('#edit-launch-date').value = formatDateForInput(currentProjectData.launch_date);
       editForm.querySelector('#edit-end-date').value = formatDateForInput(currentProjectData.end_date);
       
+      // Show current image preview
+      if (editImagePreview) {
+        if (currentProjectData.image_url) {
+          editImagePreview.innerHTML = `<img src="${currentProjectData.image_url}" alt="Current image" style="max-width: 200px; max-height: 150px; border-radius: 8px;" />`;
+        } else {
+          editImagePreview.innerHTML = '<span style="color: var(--slate-500);">No current image</span>';
+        }
+      }
+      
+      // Clear file input
+      if (editImageInput) {
+        editImageInput.value = '';
+      }
+      
       // Update date fields based on status
       updateDateFieldsState();
       
@@ -299,18 +315,23 @@
     const saveProjectChanges = async () => {
       if (!editForm) return;
       
-      const formData = new FormData(editForm);
-      const payload = {
-        title: formData.get('title'),
-        description: formData.get('description'),
-        category: formData.get('category'),
-        platform: formData.get('platform'),
-        status: formData.get('status'),
-        url: formData.get('url'),
-        launch_date: formData.get('launch_date') || null,
-        end_date: formData.get('end_date') || null,
-        goal_amount: formData.get('goal_amount') || null,
-      };
+      // Build FormData manually to ensure all values are included
+      const formData = new FormData();
+      formData.append('title', editForm.querySelector('#edit-title').value);
+      formData.append('description', editForm.querySelector('#edit-description').value);
+      formData.append('category', editForm.querySelector('#edit-category').value);
+      formData.append('platform', editForm.querySelector('#edit-platform').value);
+      formData.append('status', editForm.querySelector('#edit-status').value);
+      formData.append('url', editForm.querySelector('#edit-url').value);
+      formData.append('launch_date', editForm.querySelector('#edit-launch-date').value || '');
+      formData.append('end_date', editForm.querySelector('#edit-end-date').value || '');
+      formData.append('goal_amount', editForm.querySelector('#edit-goal-amount').value || '');
+      
+      // Add image file if selected
+      const imageInput = editForm.querySelector('#edit-image');
+      if (imageInput && imageInput.files && imageInput.files.length > 0) {
+        formData.append('image', imageInput.files[0]);
+      }
 
       editSaveBtn.disabled = true;
       setActionStatus("Saving changes…", "pending");
@@ -318,9 +339,8 @@
       try {
         const response = await fetch(`/api/projects/${encodeURIComponent(id)}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
-          body: JSON.stringify(payload),
+          body: formData, // Send FormData to support file upload
         });
 
         if (!response.ok) {

@@ -317,30 +317,86 @@ router.get('/:id', async (req, res) => {
 });
 
 // PUT /api/projects/:id (admin only)
-router.put('/:id', requireAdmin, async (req, res) => {
+router.put('/:id', requireAdmin, upload.single('image'), async (req, res) => {
   const { id } = req.params;
-  const { title, description, category, platform, status, url, launch_date, end_date, goal_amount } = req.body;
+  const body = req.body || {};
+  
+  // Parse form data - FormData sends everything as strings
+  const title = body.title;
+  const description = body.description;
+  const category = body.category;
+  const platform = body.platform;
+  const status = body.status;
+  const url = body.url;
+  const launch_date = body.launch_date && body.launch_date !== '' ? body.launch_date : null;
+  const end_date = body.end_date && body.end_date !== '' ? body.end_date : null;
+  const goal_amount = body.goal_amount && body.goal_amount !== '' ? Number(body.goal_amount) : null;
+
+  // Store temp file info
+  const tempFile = req.file ? req.file.path : null;
+
+  // Helper to cleanup temp file on validation error
+  const cleanupTempFile = () => {
+    if (tempFile && fs.existsSync(tempFile)) {
+      try { fs.unlinkSync(tempFile); } catch (e) { /* ignore */ }
+    }
+  };
 
   if (!id) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'Project id is required' });
   }
   if (!title || !title.trim()) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'Title is required' });
   }
   if (!description || !description.trim()) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'Description is required' });
   }
   if (!platform || !['kickstarter', 'indiegogo', 'gofundme'].includes(platform)) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'Valid platform is required' });
   }
   if (!status || !['going', 'completed', 'upcoming'].includes(status)) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'Valid status is required' });
   }
   if (!url || !url.trim()) {
+    cleanupTempFile();
     return res.status(400).json({ error: 'URL is required' });
   }
 
   try {
+    // Get current project to check for existing image
+    const currentProject = await pool.query('SELECT image_url FROM projects WHERE id = $1', [id]);
+    if (!currentProject.rows.length) {
+      cleanupTempFile();
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    const oldImageUrl = currentProject.rows[0].image_url;
+
+    let newImageUrl = oldImageUrl; // Keep existing by default
+
+    // Handle new image upload
+    if (tempFile) {
+      const ext = path.extname(tempFile);
+      const sanitizedTitle = sanitizeFilename(title.trim());
+      const newFilename = `${sanitizedTitle}-${id}${ext}`;
+      const newPath = path.join(path.dirname(tempFile), newFilename);
+      
+      // Delete old image if exists and different from new
+      if (oldImageUrl) {
+        const oldImagePath = path.join(__dirname, '../../public', oldImageUrl);
+        if (fs.existsSync(oldImagePath) && oldImagePath !== newPath) {
+          try { fs.unlinkSync(oldImagePath); } catch (e) { /* ignore */ }
+        }
+      }
+      
+      fs.renameSync(tempFile, newPath);
+      newImageUrl = `/assets/creators/${newFilename}`;
+    }
+
     const result = await pool.query(
       `UPDATE projects SET
         title = $1,
@@ -351,8 +407,9 @@ router.put('/:id', requireAdmin, async (req, res) => {
         url = $6,
         launch_date = $7,
         end_date = $8,
-        goal_amount = $9
-      WHERE id = $10
+        goal_amount = $9,
+        image_url = $10
+      WHERE id = $11
       RETURNING *`,
       [
         title.trim(),
@@ -361,16 +418,13 @@ router.put('/:id', requireAdmin, async (req, res) => {
         platform,
         status,
         url.trim(),
-        launch_date || null,
-        end_date || null,
-        goal_amount || null,
+        launch_date,
+        end_date,
+        goal_amount,
+        newImageUrl,
         id
       ]
     );
-
-    if (!result.rows.length) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
 
     // Regenerate embedding with updated data
     const project = result.rows[0];
@@ -396,6 +450,7 @@ router.put('/:id', requireAdmin, async (req, res) => {
 
     return res.json(project);
   } catch (error) {
+    cleanupTempFile();
     console.error('Error updating project', error);
     return res.status(500).json({ error: 'Failed to update project' });
   }
